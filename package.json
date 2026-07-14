@@ -1,0 +1,12 @@
+{
+  "name": "youtube-music",
+  "version": "1.0.0",
+  "description": "Aplicação desktop criada com Electron",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "env -u ELECTRON_RUN_AS_NODE electron ."
+  },
+  "devDependencies": {
+    "electron": "latest"
+  }
+}
