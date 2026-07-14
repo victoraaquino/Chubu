@@ -1,2 +1,5 @@
-// Ponte segura entre o processo principal e a interface.
-// Exponha aqui apenas APIs específicas quando o app precisar delas.
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  windowControl: (action) => ipcRenderer.invoke('window-control', action),
+});
