@@ -1,6 +1,8 @@
 const { app, BrowserWindow, Menu, ipcMain, BrowserView } = require('electron');
 const path = require('node:path');
 
+const appIcon = path.join(__dirname, 'resources', 'icon.png');
+
 function createWindow() {
   const window = new BrowserWindow({
     width: 1200,
@@ -8,7 +10,8 @@ function createWindow() {
     minWidth: 800,
     minHeight: 600,
     frame: false,
-    title: 'Chubu',
+    title: 'Chubu 🌸',
+    icon: appIcon,
     backgroundColor: '#070707',
     autoHideMenuBar: true,
     webPreferences: {
@@ -26,7 +29,7 @@ function createWindow() {
     },
   });
 
-  const titlebarHeight = 44;
+  const titlebarHeight = 33;
   const updateViewBounds = () => {
     const { width, height } = window.getBounds();
     view.setBounds({
@@ -40,7 +43,7 @@ function createWindow() {
   window.setBrowserView(view);
   updateViewBounds();
   window.on('resize', updateViewBounds);
-  window.loadFile(path.join(__dirname, 'index.html'));
+  window.loadFile(path.join(__dirname, 'app', 'index.html'));
   view.webContents.loadURL('https://music.youtube.com/');
 }
 

@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chubu 🌸</title>
+    <link rel="stylesheet" href="./styles/global.css" />
+    <link rel="stylesheet" href="../widgets/titlebar/ui/titlebar.css" />
+  </head>
+  <body>
+    <header class="titlebar">
+      <div class="titlebar__drag-region"></div>
+      <span class="titlebar__label">Chubu 🌸</span>
+      <nav class="titlebar__controls" aria-label="Controles da janela">
+        <button id="minimize" class="window-control" type="button" aria-label="Minimizar">
+          <svg class="window-control__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14" /></svg>
+        </button>
+        <button id="maximize" class="window-control" type="button" aria-label="Maximizar ou restaurar">
+          <svg class="window-control__icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" /></svg>
+        </button>
+        <button id="close" class="window-control" type="button" aria-label="Fechar">
+          <svg class="window-control__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+      </nav>
+    </header>
+
+    <script type="module" src="../features/window-controls/model/bind-window-controls.js"></script>
+  </body>
+</html>
