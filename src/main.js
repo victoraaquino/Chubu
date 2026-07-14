@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, BrowserView } = require('electron');
 const path = require('node:path');
 
 function createWindow() {
@@ -15,11 +15,33 @@ function createWindow() {
       preload: path.join(__dirname, 'preload.js'),
       contextIsolation: true,
       nodeIntegration: false,
-      webviewTag: true,
     },
   });
 
+  const view = new BrowserView({
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+
+  const titlebarHeight = 44;
+  const updateViewBounds = () => {
+    const { width, height } = window.getBounds();
+    view.setBounds({
+      x: 0,
+      y: titlebarHeight,
+      width,
+      height: Math.max(0, height - titlebarHeight),
+    });
+  };
+
+  window.setBrowserView(view);
+  updateViewBounds();
+  window.on('resize', updateViewBounds);
   window.loadFile(path.join(__dirname, 'index.html'));
+  view.webContents.loadURL('https://music.youtube.com/');
 }
 
 app.whenReady().then(() => {

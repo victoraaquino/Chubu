@@ -70,16 +70,6 @@
       .control-button:active {
         transform: translateY(0);
       }
-      #webview {
-        position: absolute;
-        top: 44px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 100%;
-        height: calc(100% - 44px);
-        border: none;
-      }
       #drag-region {
         position: absolute;
         inset: 0;
@@ -97,7 +87,6 @@
         <button id="close" class="control-button">✕</button>
       </div>
     </div>
-    <webview id="webview" src="https://music.youtube.com/" preload="" allowpopups style="background: #000;"></webview>
     <script>
       const minimize = document.getElementById('minimize');
       const maximize = document.getElementById('maximize');
