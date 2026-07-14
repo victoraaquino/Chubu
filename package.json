@@ -1,0 +1,35 @@
+{
+  "name": "chubu-app",
+  "version": "1.0.0",
+  "description": "Aplicação desktop criada com Electron para carregar o Youtube Music",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --linux AppImage --win nsis",
+    "build:linux": "electron-builder --linux AppImage",
+    "build:win": "electron-builder --win nsis",
+    "build:dir": "electron-builder --linux dir"
+  },
+  "build": {
+    "appId": "com.victoraaquino.chubu",
+    "productName": "Chubu",
+    "directories": {
+      "output": "dist"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "AudioVideo"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "latest",
+    "electron-builder": "latest"
+  }
+}
