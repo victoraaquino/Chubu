@@ -4,9 +4,25 @@
   "description": "Aplicação desktop criada com Electron para carregar o Youtube Music",
   "main": "src/main.js",
   "scripts": {
-    "start": "env -u ELECTRON_RUN_AS_NODE electron ."
+    "start": "electron .",
+    "build": "electron-builder --linux AppImage",
+    "build:dir": "electron-builder --linux dir"
+  },
+  "build": {
+    "appId": "com.victoraaquino.chubu",
+    "productName": "Chubu",
+    "directories": {
+      "output": "dist"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "AudioVideo"
+    }
   },
   "devDependencies": {
-    "electron": "latest"
+    "electron": "latest",
+    "electron-builder": "latest"
   }
 }
