@@ -3,14 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>YouTube Music</title>
+    <title>Chubu</title>
     <style>
-      :root { color-scheme: dark; font-family: system-ui, sans-serif; }
-      body { display: grid; min-height: 100vh; margin: 0; place-items: center; background: #121212; color: #fff; }
-      main { text-align: center; }
-      h1 { color: #ff3d4f; }
+      :root { color-scheme: dark; }
+      html, body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        background: #070707;
+        color: #fff;
+        overflow: hidden;
+        font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      }
+      #titlebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 12px;
+        background: rgba(19, 20, 26, 0.44);
+        backdrop-filter: blur(20px);
+        z-index: 100;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      }
+      #titlebar .title {
+        pointer-events: none;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.18px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.055);
+        color: rgba(255, 255, 255, 0.86);
+      }
+      #titlebar .controls {
+        position: absolute;
+        right: 12px;
+        display: flex;
+        gap: 6px;
+      }
+      .control-button {
+        width: 34px;
+        height: 34px;
+        border: none;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.04);
+        color: rgba(255, 255, 255, 0.78);
+        font-size: 13px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background 160ms ease, transform 120ms ease, color 160ms ease;
+        -webkit-app-region: no-drag;
+      }
+      .control-button:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-1px);
+        color: rgba(255, 255, 255, 0.95);
+      }
+      .control-button:active {
+        transform: translateY(0);
+      }
+      #drag-region {
+        position: absolute;
+        inset: 0;
+        -webkit-app-region: drag;
+      }
     </style>
   </head>
   <body>
+    <div id="titlebar">
+      <div id="drag-region"></div>
+      <div class="title">Chubu</div>
+      <div class="controls">
+        <button id="minimize" class="control-button">─</button>
+        <button id="maximize" class="control-button">☐</button>
+        <button id="close" class="control-button">✕</button>
+      </div>
+    </div>
+    <script>
+      const minimize = document.getElementById('minimize');
+      const maximize = document.getElementById('maximize');
+      const close = document.getElementById('close');
+
+      minimize.addEventListener('click', () => window.electronAPI.windowControl('minimize'));
+      maximize.addEventListener('click', () => window.electronAPI.windowControl('maximize'));
+      close.addEventListener('click', () => window.electronAPI.windowControl('close'));
+    </script>
   </body>
 </html>
