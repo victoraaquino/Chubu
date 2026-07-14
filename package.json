@@ -5,7 +5,9 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --linux AppImage",
+    "build": "electron-builder --linux AppImage --win nsis",
+    "build:linux": "electron-builder --linux AppImage",
+    "build:win": "electron-builder --win nsis",
     "build:dir": "electron-builder --linux dir"
   },
   "build": {
@@ -19,6 +21,11 @@
         "AppImage"
       ],
       "category": "AudioVideo"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
     }
   },
   "devDependencies": {
