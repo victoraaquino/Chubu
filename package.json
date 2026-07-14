@@ -1,7 +1,7 @@
 {
-  "name": "youtube-music",
+  "name": "chubu-app",
   "version": "1.0.0",
-  "description": "Aplicação desktop criada com Electron",
+  "description": "Aplicação desktop criada com Electron para carregar o Youtube Music",
   "main": "src/main.js",
   "scripts": {
     "start": "env -u ELECTRON_RUN_AS_NODE electron ."
