@@ -5,10 +5,10 @@
   "main": "src/main.js",
   "scripts": {
     "start": "electron .",
-    "build": "electron-builder --linux AppImage --win nsis",
-    "build:linux": "electron-builder --linux AppImage",
-    "build:win": "electron-builder --win nsis",
-    "build:dir": "electron-builder --linux dir"
+    "build": "electron-builder --linux AppImage --win nsis --publish never",
+    "build:linux": "electron-builder --linux AppImage --publish never",
+    "build:win": "electron-builder --win nsis --publish never",
+    "build:dir": "electron-builder --linux dir --publish never"
   },
   "build": {
     "appId": "com.victoraaquino.chubu",
