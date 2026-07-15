@@ -1,0 +1,72 @@
+.titlebar {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 33px;
+  padding: 0 12px;
+  background: #000000;
+  backdrop-filter: blur(24px) saturate(140%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+}
+
+.titlebar__drag-region {
+  position: absolute;
+  inset: 0;
+  -webkit-app-region: drag;
+}
+
+.titlebar__label {
+  pointer-events: none;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18px;
+}
+
+.titlebar__controls {
+  position: absolute;
+  right: 12px;
+  display: flex;
+  gap: 8px;
+}
+
+.window-control {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 28px;
+  height: 28px;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 0;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  transition: background 160ms ease, transform 120ms ease, color 160ms ease;
+  -webkit-app-region: no-drag;
+}
+
+.window-control__icon {
+  display: block;
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+}
+
+.window-control:hover {
+  color: rgba(255, 255, 255, 0.95);
+  background: transparent;
+  transform: translateY(-1px);
+}
+
+.window-control:active {
+  transform: translateY(0);
+}

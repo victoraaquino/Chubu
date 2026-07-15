@@ -13,6 +13,7 @@
   "build": {
     "appId": "com.victoraaquino.chubu",
     "productName": "Chubu",
+    "icon": "src/resources/icon.ico",
     "directories": {
       "output": "dist"
     },
