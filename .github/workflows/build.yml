@@ -7,22 +7,48 @@ on:
     branches: [ "feature/actions-releases" ]
 
 jobs:
-  build:
+  build-linux:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [22.x]
 
     steps:
     - uses: actions/checkout@v4
 
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version: 22.x
 
-    - name: Build
+    - name: Build AppImage
       run: |
-        npm install
-        npm run build
+        npm ci
+        npm run build:linux
+
+    - name: Upload AppImage
+      uses: actions/upload-artifact@v4
+      with:
+        name: chubu-linux-appimage
+        path: dist/*.AppImage
+        if-no-files-found: error
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 22.x
+
+    - name: Build NSIS installer
+      run: |
+        npm ci
+        npm run build:win
+
+    - name: Upload Windows installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: chubu-windows-installer
+        path: dist/*.exe
+        if-no-files-found: error
