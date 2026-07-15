@@ -1,11 +1,13 @@
 name: NodeJS with Webpack
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
-    branches: [ "feature/actions-releases" ]
     tags: [ "v*" ]
   pull_request:
-    branches: [ "feature/actions-releases" ]
+    branches: [ "main" ]
 
 permissions:
   contents: write
@@ -15,12 +17,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Use Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
-        node-version: 22.x
+        node-version: 24.x
+        cache: npm
 
     - name: Build AppImage
       run: |
@@ -28,7 +31,7 @@ jobs:
         npm run build:linux
 
     - name: Upload AppImage
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: chubu-linux-appimage
         path: dist/*.AppImage
@@ -38,12 +41,13 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Use Node.js
-      uses: actions/setup-node@v4
+      uses: actions/setup-node@v6
       with:
-        node-version: 22.x
+        node-version: 24.x
+        cache: npm
 
     - name: Build NSIS installer
       run: |
@@ -51,7 +55,7 @@ jobs:
         npm run build:win
 
     - name: Upload Windows installer
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: chubu-windows-installer
         path: dist/*.exe
@@ -65,10 +69,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Download release files
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v7
       with:
         pattern: chubu-*
         merge-multiple: true
