@@ -13,7 +13,7 @@
   "build": {
     "appId": "com.victoraaquino.chubu",
     "productName": "Chubu",
-    "icon": "src/resources/icon.ico",
+    "icon": "src/resources/icon.png",
     "directories": {
       "output": "dist"
     },
@@ -24,6 +24,7 @@
       "category": "AudioVideo"
     },
     "win": {
+      "icon": "src/resources/icon.ico",
       "target": [
         "nsis"
       ]
