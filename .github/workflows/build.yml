@@ -1,0 +1,84 @@
+name: NodeJS with Webpack
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+on:
+  push:
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Use Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24.x
+        cache: npm
+
+    - name: Build AppImage
+      run: |
+        npm ci
+        npm run build:linux
+
+    - name: Upload AppImage
+      uses: actions/upload-artifact@v6
+      with:
+        name: chubu-linux-appimage
+        path: dist/*.AppImage
+        if-no-files-found: error
+
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Use Node.js
+      uses: actions/setup-node@v6
+      with:
+        node-version: 24.x
+        cache: npm
+
+    - name: Build NSIS installer
+      run: |
+        npm ci
+        npm run build:win
+
+    - name: Upload Windows installer
+      uses: actions/upload-artifact@v6
+      with:
+        name: chubu-windows-installer
+        path: dist/*.exe
+        if-no-files-found: error
+
+  release:
+    name: Create GitHub Release
+    needs: [build-linux, build-windows]
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Download release files
+      uses: actions/download-artifact@v7
+      with:
+        pattern: chubu-*
+        merge-multiple: true
+        path: release
+
+    - name: Create release and upload files
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: gh release create "${{ github.ref_name }}" release/* --generate-notes

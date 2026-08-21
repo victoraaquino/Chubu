@@ -1,16 +1,49 @@
-# Chubu ♫
+# Chubu 🌸
 
 > Seu cantinho musical em formato de aplicativo desktop. Abra, dê play e deixe a playlist cuidar do resto, senpai~ ✨
 
-O **Chubu** é uma aplicação pessoal feita com [Electron](https://www.electronjs.org/) que carrega o [YouTube Music](https://music.youtube.com/) em uma janela própria, redimensionável.
+O **Chubu** é uma aplicação pessoal em [Electron](https://www.electronjs.org/) que abre o [YouTube Music](https://music.youtube.com/) em uma janela própria. Ela inclui uma barra de título personalizada e controles de reprodução na miniatura da barra de tarefas do Windows.
 
-## O que você precisa
+## Instalar o aplicativo
 
-- [Node.js](https://nodejs.org/) 20 ou superior (a versão LTS é recomendada)
+Quer apenas usar o Chubu? Você não precisa instalar Node.js, npm ou baixar o código-fonte.
+
+1. Acesse a [página de releases](https://github.com/victoraaquino/Chubu/releases) e abra a versão mais recente.
+2. Baixe o arquivo correspondente ao seu sistema operacional.
+3. Instale ou execute o aplicativo conforme as instruções abaixo.
+
+### Windows
+
+1. Baixe o arquivo `.exe` disponível na release.
+2. Abra o arquivo baixado e siga as etapas do instalador.
+3. Ao terminar, abra **Chubu** pelo Menu Iniciar ou pelo atalho criado pelo instalador.
+
+> **Aviso do Windows:** por ser um projeto pessoal distribuído fora da Microsoft Store, o Windows pode exibir uma mensagem de proteção ao abrir o instalador. Baixe sempre pela [página oficial de releases](https://github.com/victoraaquino/Chubu/releases) e, se confiar na origem, selecione **Mais informações → Executar assim mesmo**.
+
+### Linux
+
+1. Baixe o arquivo `.AppImage` disponível na release.
+2. Dê permissão de execução ao arquivo:
+
+   ```bash
+   chmod +x Chubu-*.AppImage
+   ```
+
+3. Execute-o:
+
+   ```bash
+   ./Chubu-*.AppImage
+   ```
+
+Na primeira utilização, faça login na sua conta Google para acessar playlists, recomendações e sua biblioteca do YouTube Music.
+
+## Requisitos
+
+- [Node.js](https://nodejs.org/) 24 (conforme definido no projeto)
 - npm, instalado junto com o Node.js
 - Conexão com a internet para acessar o YouTube Music
 
-Para conferir se Node e npm estão disponíveis, execute:
+Confira a instalação com:
 
 ```bash
 node --version
@@ -19,101 +52,78 @@ npm --version
 
 ## Instalação
 
-1. Clone o repositório e entre na pasta do projeto:
-
-   ```bash
-   git clone https://github.com/victoraaquino/Chubu.git
-   cd Chubu
-   ```
-
-2. Instale as dependências:
-
-   ```bash
-   npm install
-   ```
-
-Prontinho. O Electron e as ferramentas de empacotamento serão baixados para `node_modules/` — essa pasta não deve ser enviada ao Git. 🌸
+```bash
+git clone https://github.com/victoraaquino/Chubu.git
+cd Chubu
+npm install
+```
 
 ## Executar em desenvolvimento
-
-Inicie o aplicativo com:
 
 ```bash
 npm start
 ```
 
-Uma janela do Chubu abrirá carregando o YouTube Music. Você pode redimensioná-la como quiser; a página acompanha o tamanho da janela automaticamente.
+O Electron cria uma janela sem a moldura nativa. A barra superior é uma página local e o YouTube Music é carregado em uma `BrowserView` logo abaixo dela.
 
-Para encerrar, feche a janela ou use `Alt + F4` no Windows/Linux.
+## Como a aplicação funciona
 
-## Gerar versões distribuíveis
+```text
+src/main.js
+  ├─ cria a BrowserWindow sem frame
+  ├─ carrega src/app/index.html (barra de título local)
+  ├─ cria uma BrowserView abaixo da barra
+  └─ abre https://music.youtube.com/ na BrowserView
 
-Os arquivos de build são criados na pasta `dist/`.
-
-### Linux — AppImage
-
-```bash
-npm run build:linux
+src/app/index.html
+  └─ envia ações dos botões de janela → src/preload.js → src/main.js
 ```
 
-Esse comando gera um arquivo `.AppImage`, que pode ser executado na maioria das distribuições Linux. Caso necessário, dê permissão de execução e abra-o:
-
-```bash
-chmod +x dist/*.AppImage
-./dist/*.AppImage
-```
-
-### Windows — instalador `.exe`
-
-```bash
-npm run build:win
-```
-
-O resultado é um instalador `.exe` baseado em NSIS, salvo em `dist/`.
-
-> Para maior compatibilidade, gere o instalador Windows a partir do Windows. É possível tentar o build no Linux, mas algumas etapas podem exigir o Wine instalado.
-
-### Linux e Windows de uma vez
-
-```bash
-npm run build
-```
-
-### Build descompactado para testes
-
-```bash
-npm run build:dir
-```
-
-Essa opção não gera instalador: ela cria uma versão executável descompactada, útil para testar o pacote antes de distribuí-lo.
+Os botões de minimizar, maximizar/restaurar e fechar enviam mensagens IPC pela ponte segura exposta pelo preload. No Windows, os botões da miniatura da barra de tarefas acionam os controles anterior, play/pausa e próxima faixa no YouTube Music.
 
 ## Estrutura do projeto
 
 ```text
 .
+├── .github/
+│   └── workflows/
+│       └── build.yml                         # Build e releases no GitHub Actions
 ├── src/
-│   ├── main.js       # Cria a janela e carrega o YouTube Music
-│   ├── preload.js    # Ponte segura para futuras APIs do aplicativo
-│   └── index.html    # Página local de apoio
-├── package.json      # Scripts, dependências e configuração de build
-└── dist/             # Arquivos gerados (após executar um build)
+│   ├── main.js                               # Processo principal e janela do Electron
+│   ├── preload.js                            # Ponte IPC segura para a interface local
+│   ├── app/
+│   │   ├── index.html                        # Estrutura da barra de título
+│   │   └── styles/
+│   │       └── global.css                    # Estilos globais da página local
+│   ├── features/
+│   │   └── window-controls/
+│   │       └── model/
+│   │           └── bind-window-controls.js  # Eventos dos botões da janela
+│   ├── widgets/
+│   │   └── titlebar/
+│   │       └── ui/
+│   │           └── titlebar.css              # Estilos da barra de título
+│   ├── assets/                               # Ícones dos controles de mídia
+│   └── resources/                            # Ícones e recursos do aplicativo
+├── package.json                              # Scripts e configuração do electron-builder
+└── dist/                                     # Artefatos gerados pelos builds
 ```
 
-## Comandos rápidos
+## Gerar versões distribuíveis
 
-| Comando | Para que serve |
+Os artefatos são salvos em `dist/`.
+
+| Comando | Resultado |
 | --- | --- |
-| `npm install` | Instala ou atualiza as dependências |
-| `npm start` | Abre o Chubu em modo de desenvolvimento |
 | `npm run build:linux` | Gera o AppImage para Linux |
-| `npm run build:win` | Gera o instalador `.exe` para Windows |
+| `npm run build:win` | Gera o instalador NSIS para Windows |
 | `npm run build` | Gera as versões Linux e Windows |
-| `npm run build:dir` | Gera uma versão descompactada para teste |
+| `npm run build:dir` | Gera uma versão descompactada para testes |
+
+O workflow em `.github/workflows/build.yml` executa os builds em pull requests para `main` e, ao receber uma tag no formato `v*`, cria uma release no GitHub com os instaladores gerados.
 
 ## Observações
 
 - O Chubu é um projeto pessoal e não é afiliado ao YouTube ou ao YouTube Music.
-- É preciso fazer login na sua conta Google dentro da janela do aplicativo para acessar suas playlists e recomendações.
-- Como o conteúdo vem do YouTube Music, uma conexão ativa é necessária durante o uso.
-
-Divirta-se com suas músicas. Que nunca falte uma boa trilha sonora para suas aventuras! 🎧
+- É necessário fazer login na sua conta Google na janela do aplicativo para acessar playlists e recomendações.
+- O uso requer conexão ativa com a internet.
