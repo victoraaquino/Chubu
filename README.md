@@ -18,6 +18,8 @@ Quer apenas usar o Chubu? Você não precisa instalar Node.js, npm ou baixar o c
 2. Abra o arquivo baixado e siga as etapas do instalador.
 3. Ao terminar, abra **Chubu** pelo Menu Iniciar ou pelo atalho criado pelo instalador.
 
+> **Aviso do Windows:** por ser um projeto pessoal distribuído fora da Microsoft Store, o Windows pode exibir uma mensagem de proteção ao abrir o instalador. Baixe sempre pela [página oficial de releases](https://github.com/victoraaquino/Chubu/releases) e, se confiar na origem, selecione **Mais informações → Executar assim mesmo**.
+
 ### Linux
 
 1. Baixe o arquivo `.AppImage` disponível na release.
