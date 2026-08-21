@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, ipcMain, BrowserView } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain, BrowserView, nativeImage } = require('electron');
 const path = require('node:path');
 
 const appIcon = path.join(__dirname, 'resources', 'icon.png');
@@ -20,6 +20,8 @@ function createWindow() {
       nodeIntegration: false,
     },
   });
+
+
 
   const view = new BrowserView({
     webPreferences: {
@@ -45,7 +47,47 @@ function createWindow() {
   window.on('resize', updateViewBounds);
   window.loadFile(path.join(__dirname, 'app', 'index.html'));
   view.webContents.loadURL('https://music.youtube.com/');
+
+ const iconPrev = nativeImage.createFromPath(path.join(__dirname, 'assets/prev.png'));
+  const iconPlay = nativeImage.createFromPath(path.join(__dirname, 'assets/play.png'));
+  const iconNext = nativeImage.createFromPath(path.join(__dirname, 'assets/next.png'));
+
+  // Configura os botões na miniatura da barra de tarefas
+  window.setThumbarButtons([
+    {
+      tooltip: 'Anterior',
+      icon: iconPrev,
+      click() {
+        // Injeta código no YouTube Music para clicar no botão "Anterior"
+        view.webContents.executeJavaScript(`
+          document.querySelector('.previous-button').click();
+        `);
+      }
+    },
+    {
+      tooltip: 'Play/Pause',
+      icon: iconPlay,
+      click() {
+        // Injeta código no YouTube Music para clicar no botão "Play/Pause"
+        view.webContents.executeJavaScript(`
+          document.querySelector('.play-pause-button').click();
+        `);
+      }
+    },
+    {
+      tooltip: 'Próxima',
+      icon: iconNext,
+      click() {
+        // Injeta código no YouTube Music para clicar no botão "Próxima"
+        view.webContents.executeJavaScript(`
+          document.querySelector('.next-button').click();
+        `);
+      }
+    }
+  ]);
 }
+
+
 
 app.whenReady().then(() => {
   Menu.setApplicationMenu(null);
