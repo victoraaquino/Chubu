@@ -4,6 +4,37 @@
 
 O **Chubu** é uma aplicação pessoal em [Electron](https://www.electronjs.org/) que abre o [YouTube Music](https://music.youtube.com/) em uma janela própria. Ela inclui uma barra de título personalizada e controles de reprodução na miniatura da barra de tarefas do Windows.
 
+## Instalar o aplicativo
+
+Quer apenas usar o Chubu? Você não precisa instalar Node.js, npm ou baixar o código-fonte.
+
+1. Acesse a [página de releases](https://github.com/victoraaquino/Chubu/releases) e abra a versão mais recente.
+2. Baixe o arquivo correspondente ao seu sistema operacional.
+3. Instale ou execute o aplicativo conforme as instruções abaixo.
+
+### Windows
+
+1. Baixe o arquivo `.exe` disponível na release.
+2. Abra o arquivo baixado e siga as etapas do instalador.
+3. Ao terminar, abra **Chubu** pelo Menu Iniciar ou pelo atalho criado pelo instalador.
+
+### Linux
+
+1. Baixe o arquivo `.AppImage` disponível na release.
+2. Dê permissão de execução ao arquivo:
+
+   ```bash
+   chmod +x Chubu-*.AppImage
+   ```
+
+3. Execute-o:
+
+   ```bash
+   ./Chubu-*.AppImage
+   ```
+
+Na primeira utilização, faça login na sua conta Google para acessar playlists, recomendações e sua biblioteca do YouTube Music.
+
 ## Requisitos
 
 - [Node.js](https://nodejs.org/) 24 (conforme definido no projeto)
